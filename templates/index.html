@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+
+<html>
+<title>index</title>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-cn" />
+</head>
+<body>
+<style type="text/css">
+h1 {color: red}
+p {color: blue}
+</style>
+</head>
+
+<h1 align="center">天气查询系统</h1>
+
+<p>天气数据来自心知天气</p>
+
+<form align="center" action="." method="POST" >
+<input type="text" name="text">
+<input type="submit" name="chabtn" value ="查询">
+<input type="submit" name="hisbtn" value="历史">
+<input type="submit" name="helpbtn" value="帮助">
+</form>
+
+<h2><pre align="center">{{helpbtn}}</pre></h2>
+
+<p align="center">{{chabtn}} {{citycloud}} </p>
+<p align="center">{{Tcitytem}} {{citytime}} </p> 
+ 
+
+{% block content %}
+{% endblock %}
+
+
+  
+
+</body>
+</html>
+
