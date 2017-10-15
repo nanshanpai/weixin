@@ -1,3 +1,5 @@
+from werkzeug.contrib.fixers import ProxyFix
+app.wsgi_app = ProxyFix(app.wsgi_app)
 from flask import Flask, render_template, request,redirect,url_for,abort
 import os
 import requests
@@ -168,4 +170,6 @@ def wechat():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=4000)
+    from werkzeug.contrib.fixers import ProxyFix
+    app.wsgi_app = ProxyFix(app.wsgi_app)
+    app.run()
