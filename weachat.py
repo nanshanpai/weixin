@@ -25,6 +25,7 @@ def index():
 
 @app.route('/wechat', methods=['GET', 'POST'])
 def wechat():
+    signature = ""
     signature = request.args.get('signature', '')
     timestamp = request.args.get('timestamp', '')
     nonce = request.args.get('nonce', '')
