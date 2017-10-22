@@ -78,7 +78,7 @@ def h_elp():
 
 @app.route('/weixin',methods = ['POST', 'GET'])
 def weixinchat():
-    ignature = request.args.get('signature', '')
+    signature = request.args.get('signature', '')
     timestamp = request.args.get('timestamp', '')
     nonce = request.args.get('nonce', '')
     encrypt_type = request.args.get('encrypt_type', 'raw')
