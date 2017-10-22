@@ -92,11 +92,43 @@ def weixinchat():
         return echo_str
 
     # POST request
-
+    _help = """1.输入城市名称查询天气。\n 2.输入帮助查询帮助信息。\n 3.输入历史查询历史记录。"""
     msg = parse_message(request.data)
     if msg.type == 'text':
-        reply = create_reply(msg.content, msg)
+        if msg.content in ['历史']:
+            reply = create_reply(list1, msg)
+        elif msg.content in ['帮助']:
+            reply = create_reply(_help, msg)
+        else:
+            _msg = ""
+            url = "https://api.seniverse.com/v3/weather/now.json?key=kelsy6uu0gufudjz&" + "location=%s&language=zh-Hans&unit=c" % msg.content
+            
+            try:
+                r = requests.get(url)
+        
+   
+    
+    
+    
+
+        
+                dict2 = r.json()['results']
+    
+    
+    
+                citycloud = dict2[0]['now']['text']
+                citytem = dict2[0]['now']['temperature'] 
+                cityming = dict2[0]['location']['name']
+                citytime = dict2[0]['last_update'].replace('T',' ')[:10]
+    
+                Tcitytem = citytem +"℃"
+                _msg = "你查询的城市:%s 天气状况: %s 温度%s摄氏度" % (cityming, citycloud, Tcitytem)
+            except KeyError:
+                 chabtn = "没有你查询的城市，请重新输入"
+        reply = create_reply(_msg, msg)
     else:
+        
+        
         reply = create_reply('对不起无法识别', msg)
     return reply.render()
     
