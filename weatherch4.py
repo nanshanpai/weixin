@@ -1,5 +1,18 @@
-from flask import Flask,request, render_template,redirect,url_for
+from flask import Flask,request, render_template,redirect,url_for,abort
 import requests
+import os
+
+from wechatpy import parse_message, create_reply
+from wechatpy.utils import check_signature
+from wechatpy.exceptions import (
+    InvalidSignatureException,
+    InvalidAppIdException,
+)
+
+# set token or get from environments
+TOKEN = os.getenv('WECHAT_TOKEN', 'weatherch4')
+AES_KEY = os.getenv('WECHAT_AES_KEY', '')
+APPID = os.getenv('WECHAT_APPID', '')
 
 list1 = []
 app = Flask(__name__)
@@ -62,5 +75,30 @@ def h_elp():
     
 
     return render_template('help.html')
+
+@app.route('/weixin',methods = ['POST', 'GET'])
+def weixinchat():
+    ignature = request.args.get('signature', '')
+    timestamp = request.args.get('timestamp', '')
+    nonce = request.args.get('nonce', '')
+    encrypt_type = request.args.get('encrypt_type', 'raw')
+    msg_signature = request.args.get('msg_signature', '')
+    try:
+        check_signature(TOKEN, signature, timestamp, nonce)
+    except InvalidSignatureException:
+        abort(403)
+    if request.method == 'GET':
+        echo_str = request.args.get('echostr', '')
+        return echo_str
+
+    # POST request
+
+    msg = parse_message(request.data)
+    if msg.type == 'text':
+        reply = create_reply(msg.content, msg)
+    else:
+        reply = create_reply('对不起无法识别', msg)
+    return reply.render()
+    
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=4000)
+    app.run()
