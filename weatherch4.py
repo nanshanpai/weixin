@@ -97,6 +97,7 @@ def weixinchat():
     if msg.type == 'text':
         if msg.content in ['历史']:
             for item in list1:
+                listweixin = ""
                 listweixin = "s%,s%,s%" % (item[0],item[1],item[2])
             reply = create_reply(listweixin, msg)
             
