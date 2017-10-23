@@ -96,7 +96,9 @@ def weixinchat():
     msg = parse_message(request.data)
     if msg.type == 'text':
         if msg.content in ['历史']:
-            reply = create_reply(list1, msg)
+            for item in list1:
+                listweixin = item[0]+item[1]+item[2]
+            reply = create_reply(listweixin, msg)
             
         elif msg.content in ['帮助']:
             reply = create_reply(_help, msg)
