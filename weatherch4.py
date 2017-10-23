@@ -92,13 +92,15 @@ def weixinchat():
         return echo_str
 
     # POST request
-    _help = """1.输入城市名称查询天气。\n 2.输入帮助查询帮助信息。\n 3.输入历史查询历史记录。"""
+    _help = "1.输入城市名称查询天气。\n 2.输入帮助查询帮助信息. \n 3.输入历史查询历史记录。"
     msg = parse_message(request.data)
     if msg.type == 'text':
         if msg.content in ['历史']:
             reply = create_reply(list1, msg)
+            
         elif msg.content in ['帮助']:
             reply = create_reply(_help, msg)
+            
         else:
             
             url = "https://api.seniverse.com/v3/weather/now.json?key=kelsy6uu0gufudjz&" + "location=%s&language=zh-Hans&unit=c" % msg.content
