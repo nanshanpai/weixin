@@ -100,7 +100,7 @@ def weixinchat():
         elif msg.content in ['帮助']:
             reply = create_reply(_help, msg)
         else:
-            _msg = ""
+            
             url = "https://api.seniverse.com/v3/weather/now.json?key=kelsy6uu0gufudjz&" + "location=%s&language=zh-Hans&unit=c" % msg.content
             
             try:
@@ -123,9 +123,10 @@ def weixinchat():
     
                 Tcitytem = citytem +"℃"
                 _msg = "你查询的城市:%s 天气状况: %s 温度%s摄氏度" % (cityming, citycloud, Tcitytem)
+                reply = create_reply(_msg, msg)
             except KeyError:
-                 chabtn = "没有你查询的城市，请重新输入"
-        reply = create_reply(_msg, msg)
+                 return "没有你查询的城市，请重新输入"
+        
     else:
         
         
