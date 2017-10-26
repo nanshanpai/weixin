@@ -96,10 +96,9 @@ def weixinchat():
     msg = parse_message(request.data)
     if msg.type == 'text':
         if msg.content in ['历史']:
-            for item in list1:
-                listweixin = ""
-                listweixin = "s%,s%,s%" % (item[0],item[1],item[2])
-            reply = create_reply(listweixin, msg)
+            strlist = ''.join(list1)
+            
+            reply = create_reply(strlist, msg)
             
         elif msg.content in ['帮助']:
             reply = create_reply(_help, msg)
@@ -128,6 +127,7 @@ def weixinchat():
     
                 Tcitytem = citytem +"℃"
                 _msg = "你查询的城市:%s 天气状况: %s 温度%s摄氏度" % (cityming, citycloud, Tcitytem)
+                list1.append('%s,%s,%s,%s' % (cityming, citycloud, Tcitytem, citytime))
                 reply = create_reply(_msg, msg)
             except KeyError:
                  return "没有你查询的城市，请重新输入"
