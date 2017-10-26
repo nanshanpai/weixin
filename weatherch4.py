@@ -96,7 +96,7 @@ def weixinchat():
     msg = parse_message(request.data)
     if msg.type == 'text':
         if msg.content in ['历史']:
-            strlist = ''.join(list1)
+            strlist = "你查询的历史暂时没有调试好"
             
             reply = create_reply(strlist, msg)
             
