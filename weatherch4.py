@@ -166,7 +166,7 @@ def weixinchat():
              cur.execute("select city from chaxun where ctime=date('now')")
              citylist =  cur.fetchall()
              for item in citylist:
-                  strlist = "s%s%s%s%" %(item["city"],item["cloud"],item["ctemp"],item["ctime"])
+                  strlist = "s%s%s%s%" %(item[0],item[1],item[2],item[3])
  #            strlist = "".join(['{} {} {}\n'.format(item[0],item[1],item[2])
                #       for item in citylist])
             
