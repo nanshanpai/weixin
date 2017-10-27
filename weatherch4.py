@@ -175,7 +175,7 @@ def weixinchat():
             
             
 
-                                  
+          try:                        
             url = "https://api.seniverse.com/v3/weather/now.json?key=kelsy6uu0gufudjz&" + "location=%s&language=zh-Hans&unit=c" % msg.content
             r = requests.get(url)
             dict2 = r.json()['results']
@@ -197,7 +197,8 @@ def weixinchat():
 
             con.commit()
             reply = create_reply(starlist, msg)
-                    
+          except KeyError:
+                 return "没有你查询的城市，请重新输入"           
          
         
     else:
