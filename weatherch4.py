@@ -94,7 +94,7 @@ def index():
                    con.commit()
                    return render_template('home.html',cityming=cityming,citycloud=citycloud, Tcitytem=Tcitytem ,citytime=citytime) 
          except KeyError:
-              return render_template('newagain.html')
+            return render_template('newagain.html')
               
              
     elif  request.form.get('hisbtn', None) == "历史":
@@ -156,6 +156,7 @@ def weixinchat():
 
     # POST request
     _help = "1.输入城市名称查询天气。\n 2.输入帮助查询帮助信息. \n 3.输入历史查询历史记录。"
+    
     msg = parse_message(request.data)
     if msg.type == 'text':
         if msg.content in ['历史']:
@@ -172,65 +173,32 @@ def weixinchat():
             
         else:
             
-             con = sql.connect("weather.db")
-             cur = con.cursor()
-          
-             city = request.form['text']
-         
-             cur.execute("select city from chaxun where ctime=date('now')")
-             citylist =  cur.fetchall()
             
-             i = (city,)
-         
-         
-             try:
-                   if i in citylist:
-                        a = ""
-                        b = ""
-                        x = ""
-                        y = ""
 
-
-                        t = (city,)
-                        con = sql.connect("weather.db")
-                        cur = con.cursor()
-                        cur.execute("select * from chaxun where city=? and ctime=date('now')",t)
-                        trow = cur.fetchone()
-                   
-                        con.commit()
-                        x = trow[0]
-                        y = trow[1]
-                        a = trow[2]
-                        b = trow[3]
-                        starlist = '%s,%s,%s,%s' % (trow[0], trow[1], trow[2], trow[3]
-             reply = create_reply(starlist, msg)
-                   
-                  else: 
                                   
-                        url = "https://api.seniverse.com/v3/weather/now.json?key=kelsy6uu0gufudjz&" + "location=%s&language=zh-Hans&unit=c" % city
-                        r = requests.get(url)
-                        dict2 = r.json()['results']
-                        citycloud = dict2[0]['now']['text']
-                        citytem = dict2[0]['now']['temperature'] 
-                        cityming = dict2[0]['location']['name']
-                        citytime = dict2[0]['last_update'].replace('T',' ')[:10]
-    
-                        Tcitytem = citytem +"℃"
-                       
-                       
-                        s_trlist = '%s,%s,%s,%s' % (cityming, citycloud, Tcitytem, citytime)
-         
-                        con = sql.connect("weather.db")
-                        cur = con.cursor()
-            
-                        cur.execute("INSERT INTO chaxun (city,cloud,ctemp,ctime)\
-                    VALUES (?,?,?,?)",(cityming,citycloud,Tcitytem,citytime) )
-              
-                        con.commit()
-                        reply = create_reply(s_trlist, msg)
+            url = "https://api.seniverse.com/v3/weather/now.json?key=kelsy6uu0gufudjz&" + "location=%s&language=zh-Hans&unit=c" % msg.content
+            r = requests.get(url)
+            dict2 = r.json()['results']
+            citycloud = dict2[0]['now']['text']
+            citytem = dict2[0]['now']['temperature'] 
+            cityming = dict2[0]['location']['name']
+            citytime = dict2[0]['last_update'].replace('T',' ')[:10]
+
+            Tcitytem = citytem +"℃"
+                 
+                 
+            starlist = '%s,%s,%s,%s' % (cityming, citycloud, Tcitytem, citytime)
+
+            con = sql.connect("weather.db")
+            cur = con.cursor()
+
+            cur.execute("INSERT INTO chaxun (city,cloud,ctemp,ctime)\
+              VALUES (?,?,?,?)",(cityming,citycloud,Tcitytem,citytime) )
+
+            con.commit()
+            reply = create_reply(starlist, msg)
                     
-         except KeyError:
-              return "请重新输入"
+         
         
     else:
         
