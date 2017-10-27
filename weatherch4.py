@@ -165,7 +165,7 @@ def weixinchat():
              cur = con.cursor()
              cur.execute("select city from chaxun where ctime=date('now')")
              citylist =  cur.fetchall()
-             strlist = "".join(['{} {} {} {}\n'.format(item[0],item[1],item[2],item[3])
+             strlist = "".join(['{} {} {}\n'.format(item[0],item[1],item[2])
                       for item in citylist])
             
              reply = create_reply(strlist, msg)
