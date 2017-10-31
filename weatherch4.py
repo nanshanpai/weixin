@@ -159,6 +159,7 @@ def weixinchat():
     
     msg = parse_message(request.data)
     if msg.type == 'text':
+        strlist = ""
         openid = msg.source
         _city = msg.content
         tt = (_city,)
