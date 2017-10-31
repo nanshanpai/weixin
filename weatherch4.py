@@ -170,10 +170,10 @@ def weixinchat():
 
 
              citylist =  cur.fetchall()
-             for item in citylist:
-                 strlist = "s%s%s%s%" % (item[0],item[1],item[2],item[3])
-#             strlist = "".join(['{} {} {}\n'.format(item[0],item[1],item[2])
-#                     for item in citylist])
+#             for item in citylist:
+#                 strlist = "s%s%s%s%" % (item[0],item[1],item[2],item[3])
+             strlist = "".join(['{} {} {}\n'.format(item[0],item[1],item[2])
+                     for item in citylist])
             
              reply = create_reply(strlist, msg)
             
