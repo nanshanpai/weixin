@@ -160,15 +160,17 @@ def weixinchat():
     msg = parse_message(request.data)
     if msg.type == 'text':
         openid = msg.source
+        _city = msg.content
         if msg.content in ['历史']:
              con = sql.connect("weather.db")
              cur = con.cursor()
-             cur.execute("select city from chaxun where ctime=date('now')")
+             cur.execute("select * from chaxun where city=? and ctime=date('now')",_city)
+
+
              citylist =  cur.fetchall()
-             for item in citylist:
-                  strlist = "s%s%s%s%" %(item[0],item[1],item[2],item[3])
- #            strlist = "".join(['{} {} {}\n'.format(item[0],item[1],item[2])
-               #       for item in citylist])
+ #            for item in citylist:
+             strlist = "s%s%s%s%" % (item[0],item[1],item[2],item[3])
+#                      for item in citylist])
             
              reply = create_reply(strlist, msg)
             
@@ -180,7 +182,7 @@ def weixinchat():
             
 
           try:                        
-            url = "https://api.seniverse.com/v3/weather/now.json?key=kelsy6uu0gufudjz&" + "location=%s&language=zh-Hans&unit=c" % msg.content
+            url = "https://api.seniverse.com/v3/weather/now.json?key=kelsy6uu0gufudjz&" + "location=%s&language=zh-Hans&unit=c" % _city
             r = requests.get(url)
             dict2 = r.json()['results']
             citycloud = dict2[0]['now']['text']
