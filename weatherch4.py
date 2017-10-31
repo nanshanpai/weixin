@@ -161,10 +161,11 @@ def weixinchat():
     if msg.type == 'text':
         openid = msg.source
         _city = msg.content
+        tt = (_city,)
         if msg.content in ['历史']:
              con = sql.connect("weather.db")
              cur = con.cursor()
-             cur.execute("select * from chaxun where city=? and ctime=date('now')",_city)
+             cur.execute("select * from chaxun where city=? and ctime=date('now')",tt)
 
 
              citylist =  cur.fetchall()
